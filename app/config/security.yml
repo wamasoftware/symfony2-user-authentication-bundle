@@ -1,0 +1,39 @@
+security:
+    encoders:
+        Acme\UserBundle\Document\User:
+            algorithm: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_ADMIN
+        ROLE_USER:        ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        administrators:
+            mongodb: { class: Acme\UserBundle\Document\User, property: username }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        user_login:
+            pattern:  ^/login$
+            security: false
+
+        secured_area:
+            pattern:    ^/
+            form_login:
+                check_path: user_login_check
+                login_path: user_login
+                default_target_path: user_home
+            logout:
+                path:   user_logout
+                target: user_login
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }

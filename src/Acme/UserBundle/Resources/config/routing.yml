@@ -1,0 +1,13 @@
+user_login:
+    path:     /login
+    defaults: { _controller: UserBundle:Default:login }
+user_login_check:
+    path:     /logincheck
+user_logout:
+    path:     /logout
+admin_home:
+    path:     /admin/home
+    defaults: { _controller: UserBundle:Default:adminhome }
+user_home:
+    path:     /user/home
+    defaults: { _controller: UserBundle:Default:userhome }
